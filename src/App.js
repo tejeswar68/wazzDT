@@ -1,12 +1,9 @@
-import Adds from "./components/addstudent"
-import Adda from "./components/addsattendance"
+import Admin from "./components/admin"
 import {Route,Routes} from 'react-router-dom'
 function App() {
  return (
   <Routes>
-  <Route path="/" element={<Adds/>}/>
-  <Route path="/addAt" element={<Adda/>}/>
-  <Route path="/addAs" element={<Adds/>}/>
+  <Route path="/" element={<Admin/>}/>
 </Routes>
   );
 }

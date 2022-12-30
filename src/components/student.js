@@ -7,7 +7,7 @@ function Admin() {
  return (
     <div className='container-fluid mt-5 text-dark'  >
       <div className="bg-light w-50 rounded mx-auto" style={{backgroundImage:`Url(https://img.freepik.com/free-photo/abstract-textured-backgound_1258-30499.jpg?w=2000)`,backgroundRepeat:'NoRepeat', backgroundSize:'cover',marginTop:'6rem'}}>
-      <div className="display-4 text-center  mt-5 mb-2">Admin SignUp</div>
+      <div className="display-4 text-center  mt-5 mb-2">Student SignUp</div>
       <div className="row">
         <div className="col-12 col-sm-8 col-md-6  mx-auto">
       <Form className="text-dark">

@@ -4,6 +4,7 @@ import { MdLogin } from "react-icons/md";
 import {BsReception3, BsFillFilePersonFill,BsMailbox,BsFillTelephoneFill, BsBook} from "react-icons/bs";
 import { AiTwotoneMail } from "react-icons/ai";
 function Admin() {
+  
  return (
     <div className='container-fluid mt-5 text-dark'  >
       <div className="bg-light w-50 rounded mx-auto" style={{backgroundImage:`Url(https://img.freepik.com/free-photo/abstract-textured-backgound_1258-30499.jpg?w=2000)`,backgroundRepeat:'NoRepeat', backgroundSize:'cover',marginTop:'6rem'}}>

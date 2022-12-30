@@ -1,12 +1,30 @@
 import React from "react";
+import { useState ,useEffect } from "react";
 import {Button} from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
-function Home() {
-  const navigate = useNavigate();
-let x1=0,x2=0,x3=0,x4=0,x5=0,sum=0;
-let cost1 = 40,cost2 = 30,cost3 = 30,cost4 = 15,cost5= 30;
 
+function Home() {
+const navigate = useNavigate();
+let [placed , setPlaced] = useState(false)
+let x1=0,x2=0,x3=0,x4=0,x5=0,sum=0;
+let [studentName, setStudentName]= useState('')
+let [orders, setOrders] = useState('')
+
+let cost1 = 40,cost2 = 30,cost3 = 30,cost4 = 15,cost5= 30;
+let [orderItems , setOrderItems] = useState({
+  vegbiryani:0,
+  puri:0,
+  dkm:0,
+  chapathi:0 ,
+  paratha:0
+})
 const isadmin= localStorage.getItem("email") !== "admin@gmail.com";
+useEffect(() => {
+  return () => {
+    setStudentName(JSON.parse(localStorage.getItem('studentname')))
+    setOrders(JSON.parse(localStorage.getItem("orderItems")))
+  }
+}, [orderItems])
 
 const fun =()=>
 {
@@ -20,26 +38,12 @@ navigate("/");
       <Button onClick={fun}  className="m-5">LOGOUT</Button>
       {isadmin?
       <>
-      <h1 className="text-center text-primary mb-4 mt-3">MESS IS MESS?</h1>
+      <h2 className="ms-5">Hi {studentName}....!!</h2>
+      <h1 className="text-center text-danger mb-4 mt-3 rounded-pill p-3 light w-75 mx-auto">MESSY CANTEEN</h1>
+      { !placed &&  
+      <>
       <div className="col-sm-8 container-fluid">
-              <nav className="nav-bar navbar-expand-lg navbar-light bg-light px-md-5 py-md-3">
-                <a className="navbar-brand text-center" href="/"> <strong>
-                    College Canteen
-                  </strong> </a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-                  <span className="navbar-toggler-icon" />
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul className="navbar-nav">
-                    <li className="nav-item">
-                      <a href="admin" className="nav-link navtext me-5">Admin</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="student" className="nav-link navtext"> Student </a>
-                    </li>
-                  </ul>
-                </div>
-              </nav> 
+              
               <h1 className="text-center text-secondary mt-3 mb-3"> MENU</h1>
               <table className="table table-dark table-hover">
                 <thead>
@@ -124,34 +128,130 @@ navigate("/");
             </div>
             <div className="text-center">
                 <button className="btn btn-success mx-md-5" id="click" onClick={()=>{
+                  setPlaced(true)
                   sum+=x1*cost1+x2*cost2+x3*cost3+x4*cost4+x5*cost5;
                   (x1||x2||x3||x4||x5)?document.getElementById("book").innerHTML = "Your order has been placed!": document.getElementById("book").innerHTML = "No item selected";
                   (x1||x2||x3||x4||x5)?document.getElementById("book2").innerHTML = "BILL ": document.getElementById("book2").innerHTML = "";
-                  (x1)?document.getElementById("bill1").innerHTML = " BIRYANI -- "+x1*cost1: document.getElementById("bill1").innerHTML = "";
-                  (x2)?document.getElementById("bill2").innerHTML = " PARATHA -- "+x2*cost2: document.getElementById("bill2").innerHTML = "";
-                  (x3)?document.getElementById("bill3").innerHTML = " CHAPATHI -- "+x3*cost3: document.getElementById("bill3").innerHTML = "";
-                  (x4)?document.getElementById("bill4").innerHTML = " DOUBLE KA MEETA -- "+x4*cost4: document.getElementById("bill4").innerHTML = "";
-                  (x5)?document.getElementById("bill5").innerHTML = " PURI -- "+x5*cost5: document.getElementById("bill5").innerHTML = "";
+                  (x1)?document.getElementById("bill1").innerHTML = " BIRYANI -- "+ x1 +" * " + cost1 +" Rs. = " +x1*cost1: document.getElementById("bill1").innerHTML = "";
+                  (x2)?document.getElementById("bill2").innerHTML = " PARATHA -- " + x1 +" * " + cost1 +" Rs. = " +x2*cost2: document.getElementById("bill2").innerHTML = "";
+                  (x3)?document.getElementById("bill3").innerHTML = " CHAPATHI -- "+x1 +" * " + cost1 +" Rs. = " + x3*cost3: document.getElementById("bill3").innerHTML = "";
+                  (x4)?document.getElementById("bill4").innerHTML = " DOUBLE KA MEETA -- "+x1 +" * " + cost1 +" Rs. = "  + x4*cost4: document.getElementById("bill4").innerHTML = "";
+                  (x5)?document.getElementById("bill5").innerHTML = " PURI -- "+x1 +" * " + cost1 +" Rs. = "  + x5*cost5: document.getElementById("bill5").innerHTML = "";
                   (sum)?document.getElementById("sum").innerHTML = " TOTAL COST  -- "+sum: document.getElementById("sum").innerHTML = "";  
+                  
+                  let items= orderItems
+                  items.biryani= x1;
+                  items.paratha= x2
+                  items.chapathi= x3
+                  items.dkm= x4
+                  items.puri=x5
+                  setOrderItems(items)
+                  
+                  setOrders(items)
+                  console.log(items , "items ordered")
+                  localStorage.setItem("orderItems",JSON.stringify(items));
+                  
+                  
+                  
+                
                 }}>
                   Place Order
                 </button>
               </div>
+              </>}
               <div>
-              <h1 id="book" className="text-center "></h1>
-              <h2 id="book2" className="text-center m-5"></h2>
-              <h3 id="bill1" className="text-center"></h3>
-              <h3 id="bill2" className="text-center"></h3>
-              <h3 id="bill3" className="text-center"></h3>
-              <h3 id="bill4" className="text-center"></h3>
-              <h3 id="bill5" className="text-center"></h3>
-              <h3 id="sum" className="text-center"></h3>
+             <div className={placed? "alert alert-success w-50 mx-auto p-4": ""}  id='book' role="alert">
+  
+              </div>
+              
+             
+              <h2 id="book2" className="text-center m-5 text-danger"></h2>
+              {placed && <hr className="m-0 p-0 w-50 mx-auto"/>}
+              <h3 id="bill1" className="text-center  w-50 mx-auto"></h3>
+              <h3 id="bill2" className="text-center  w-50 mx-auto"></h3>
+              <h3 id="bill3" className="text-center  w-50 mx-auto"></h3>
+              <h3 id="bill4" className="text-center  w-50 mx-auto"></h3>
+              <h3 id="bill5" className="text-center  w-50 mx-auto"></h3>
+              {placed && <hr className="m-0 p-0 w-50 mx-auto"/>}
+              <h3 id="sum" className="text-center w-50 mx-auto"></h3>
+              {placed && <hr className="m-0 p-0 w-50 mx-auto"/>}
+              
               </div>
               
       </>
       :
-      <h1>HI Admin!!</h1>
+      <>
+         {orders ?
+         <>
+              <button className='btn btn-danger' onClick={ ()=>{
+                setOrderItems('')
+                localStorage.removeItem('orderItems')
+                
+              }}>Clear Orders </button>
+              
+        <table className="table table-dark table-hover w-50 mx-auto text-center">
+          <thead>
+            <tr>
+              <td> Order No  : 1 </td>
+              <td>Ordered By : {studentName}</td>
+            </tr>
+          </thead>
+        </table>
+        <table className="w-50 table table-light table-hover text-center mx-auto">
+              <thead>
+              <tr>
+                    
+                    <th scope="col">
+                      Name
+                    </th>
+                    <th scope="col">
+                      Quantity Ordered
+                    </th>
+                    
+                  </tr>
+
+              </thead>
+         <tbody>
+              {orders.biryani!==0 && 
+              <tr>
+              <td>Veg Biryani </td>
+              <td>{orders.biryani}</td> 
+              </tr>
               }
+             {orders.paratha!==0 && 
+              <tr>
+              <td>Paratha </td>
+              <td>{orders.paratha}</td> 
+              </tr>
+              }
+              {orders.chapathi!==0 && 
+              <tr>
+              <td>Chapathi </td>
+              <td>{orders.chapathi}</td> 
+              </tr>
+              }
+              {orders.dkm!==0 && 
+              <tr>
+              <td>Double ka meeta </td>
+              <td>{orders.dkm}</td> 
+              </tr>
+              }
+              {orders.puri!==0 && 
+              <tr>
+              <td>Puri </td>
+              <td>{orders.puri}</td> 
+              </tr>
+              }
+           </tbody>
+              </table>
+         </>
+         :
+         <>
+         <div className="text-center text-danger display-4 p-5">No orders Found</div>
+         </>
+         }
+      </>
+       }
           </div>
   );
 }

@@ -5,7 +5,7 @@ import {MdEmail} from 'react-icons/md'
 import {RiLockPasswordFill} from 'react-icons/ri'
 import {BsFillTelephoneFill} from 'react-icons/bs'
 import {useForm} from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   
@@ -47,7 +47,8 @@ function Login() {
                     </div>
                   </div>
                   <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" className="btn btn-primary btn-lg" >Login</button>
+                    <button type="submit" className="btn btn-primary btn-lg me-3 " >Login</button>
+                    <button type="submit" className="btn btn-success btn-lg text-white"><Link to='/signup' className='text-white' style={{ textDecoration: 'none'}}>Signup</Link> </button>
                   </div>
 
                 </form>
